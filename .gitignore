@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ampliscan demux outputs (regenerable)
+demux_out/
+demux_output/
+my_demux/
+real_demux_output/
+examples/demux_out/
+examples/demux_output/
+examples/real_demux_output/
+
+# large / generated sample data (keep panels + notebook, not big FASTQs)
+examples/sample_data/*.fastq.gz

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ampliscan"
+version = "0.1.0"
+description = "Anchor-based amplicon demultiplexer for tetra/octa-nucleotide barcodes"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Ayushman", email = "ayushmania2002@gmail.com" }]
+license = { text = "MIT" }
+dependencies = [
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+excel = ["pandas>=1.5", "openpyxl>=3.1"]
+fast = ["isal>=1.6"]  # 2-5x faster gzip; used automatically when installed
+notebook = ["jupyter", "ipywidgets>=8.0", "plotly>=5.0", "pandas>=1.5", "openpyxl>=3.1"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+ampliscan = "ampliscan.cli:main"
+
+[project.gui-scripts]
+ampliscan-gui = "ampliscan.gui:launch"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ampliscan"]
+artifacts = ["*.ico", "*.png"]  # bundle brand icons with the installed package

@@ -1,0 +1,19 @@
+name: ayushman_panel_v1
+notes: Derived from Data_Ayushman.xlsx draft sent by PI.
+forward_5p_anchor: GCTT
+forward_3p_anchor: ACAG
+# reverse anchors default to the reverse complement of the above; override here if asymmetric
+barcode_length: 4
+forward_barcodes:
+  F01: GCGT
+  F02: GTAG
+  F03: ACGC
+  F04: CTCG
+  F05: GCTC
+reverse_barcodes:
+  R01: ACGC
+  R02: CTAC
+  R03: GCGT
+  R04: CGAG
+  R05: GAGC
+target_length_range: [80, 120]

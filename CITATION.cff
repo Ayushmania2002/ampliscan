@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use ampliscan in your research, please cite it as below."
+title: "ampliscan: an anchor-based amplicon demultiplexer with a desktop GUI for barcode-tagged sequencing reads"
+abstract: >-
+  ampliscan is a lightweight Python package that demultiplexes amplicon
+  sequencing reads by inner, anchor-flanked barcodes carried on custom PCR
+  primers. It locates a user-defined pair of constant anchor sequences, reads
+  the variable barcode adjacent to each, and assigns every read (or read pair)
+  to the corresponding sample bin, matching the anchor and barcode together as
+  a single octanucleotide unit. The same engine is exposed through a scriptable
+  command-line interface and a zero-dependency desktop GUI.
+type: software
+version: "0.1.0"
+date-released: "2026-07-23"
+license: MIT
+authors:
+  - given-names: Ayushman
+    family-names: Mallick
+    email: ayushmania2002@gmail.com
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # add once you have one
+keywords:
+  - amplicon sequencing
+  - demultiplexing
+  - barcodes
+  - Illumina
+  - FASTQ
+  - bioinformatics
+  - Python
+# repository-code: "https://github.com/Ayushmania2002/ampliscan"   # uncomment after repo is created
+# doi: "10.5281/zenodo.XXXXXXX"                                     # add once Zenodo mints it
