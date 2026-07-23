@@ -132,7 +132,7 @@ definition are consumed by the engine (anchor localisation → barcode matching
 GUI, and which emits per-sample FASTQ/FASTA bins together with a QC summary.
 
 <p align="center">
-  <img src="docs/workflow.png" alt="ampliscan workflow diagram" width="800"><br>
+  <img src="https://raw.githubusercontent.com/Ayushmania2002/ampliscan/main/docs/workflow.png" alt="ampliscan workflow diagram" width="800"><br>
   <sub><b>Figure 1.</b> ampliscan processing pipeline, from raw paired-end
   reads and a panel definition to per-sample output bins and a QC summary.</sub>
 </p>
@@ -352,8 +352,7 @@ BibTeX:
 
 ## 11. Acknowledgements
 
-The author thanks [PI / collaborators / funding source — optional] for the
-sequencing data and guidance that motivated this tool.
+The author thanks Dr. Soham Roy for the sequencing data and guidance that motivated this tool.
 
 ## References
 

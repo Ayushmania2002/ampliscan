@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/cover.png" alt="ampliscan — sort sequencing reads into per-sample bins by their barcodes" width="820">
+  <img src="https://raw.githubusercontent.com/Ayushmania2002/ampliscan/main/assets/cover.png" alt="ampliscan — sort sequencing reads into per-sample bins by their barcodes" width="820">
 </p>
 
 <h1 align="center">ampliscan</h1>
@@ -65,7 +65,7 @@ pip install -e .[fast,excel]
 ## Workflow
 
 <p align="center">
-  <img src="docs/workflow.png" alt="ampliscan workflow: R1/R2 FASTQ and a panel YAML go into the ampliscan engine (locate anchors, match barcodes, reconcile R1+R2 pairs), which is driven by either the CLI or the GUI, and produces per-sample FASTQ/FASTA bins plus a QC summary" width="900">
+  <img src="https://raw.githubusercontent.com/Ayushmania2002/ampliscan/main/docs/workflow.png" alt="ampliscan workflow: R1/R2 FASTQ and a panel YAML go into the ampliscan engine (locate anchors, match barcodes, reconcile R1+R2 pairs), which is driven by either the CLI or the GUI, and produces per-sample FASTQ/FASTA bins plus a QC summary" width="900">
 </p>
 
 1. **Input** — paired-end (or single-end) FASTQ/FASTA, gzip or plain.
