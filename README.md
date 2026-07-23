@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://pypi.org/project/ampliscan/"><img alt="PyPI" src="https://img.shields.io/pypi/v/ampliscan.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/python-%E2%89%A53.9-blue">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green">
   <img alt="Interfaces" src="https://img.shields.io/badge/interfaces-CLI%20%2B%20GUI-8a2be2">
@@ -60,6 +61,26 @@ git clone https://github.com/Ayushmania2002/ampliscan
 cd ampliscan
 pip install -e .[fast,excel]
 ```
+
+## Workflow
+
+<p align="center">
+  <img src="docs/workflow.png" alt="ampliscan workflow: R1/R2 FASTQ and a panel YAML go into the ampliscan engine (locate anchors, match barcodes, reconcile R1+R2 pairs), which is driven by either the CLI or the GUI, and produces per-sample FASTQ/FASTA bins plus a QC summary" width="900">
+</p>
+
+1. **Input** — paired-end (or single-end) FASTQ/FASTA, gzip or plain.
+2. **Panel** — a YAML file (or the GUI form) declaring the anchor sequences,
+   barcode length, and forward/reverse barcode lists.
+3. **Engine** — for each read: locate the anchors, match the adjacent
+   barcodes (Hamming or Levenshtein), then reconcile the R1/R2 assignment.
+4. **Decision** — assigned reads go to their sample bin; unassigned reads are
+   kept with an explicit reason (`no_anchor`, `barcode_unmatched`,
+   `barcode_ambiguous`, or `paired_end_disagreement`).
+5. **Output** — one FASTQ/FASTA file per sample, plus a QC summary
+   (heatmap of reads per bin + the unassigned-reason breakdown).
+
+Drive the same engine from either the **CLI** (scripting/pipelines) or the
+**GUI** (point-and-click) — see below.
 
 ## Usage
 
@@ -124,7 +145,7 @@ octanucleotide rationale, validation, and benchmarks.
 If you use ampliscan in your research, please cite it (see [`CITATION.cff`](CITATION.cff)):
 
 > Ayushman Mallick (2026). *ampliscan: an anchor-based amplicon demultiplexer
-> with a desktop GUI for barcode-tagged sequencing reads* (Version 0.1.0)
+> with a desktop GUI for barcode-tagged sequencing reads* (Version 1.0.0)
 > [Software]. Zenodo. https://doi.org/10.5281/zenodo.21505581
 
 ## License

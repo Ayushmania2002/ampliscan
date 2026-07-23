@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ampliscan"
-version = "0.1.0"
+version = "1.0.0"
 description = "Anchor-based amplicon demultiplexer for tetra/octa-nucleotide barcodes"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -41,6 +41,7 @@ artifacts = ["*.ico", "*.png"]  # bundle brand icons with the installed package
 [tool.hatch.build.targets.sdist]
 exclude = [
     "/assets",                       # repo-only README banner, not needed to build/install
+    "/docs",                         # repo-only diagrams/build docs, not needed to build/install
     "/examples/sample_data",         # demo FASTQ files, not needed to build/install
     "/.github",
 ]

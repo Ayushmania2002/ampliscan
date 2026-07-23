@@ -16,7 +16,7 @@
 
 **Correspondence:** ayushmania2002@gmail.com · **ORCID:** [0000-0000-0000-0000]
 
-**Version:** 0.1.0 · **License:** MIT · **DOI:** 10.5281/zenodo.21505581 · **Repository:** https://github.com/Ayushmania2002/ampliscan
+**Version:** 1.0.0 · **License:** MIT · **DOI:** 10.5281/zenodo.21505581 · **Repository:** https://github.com/Ayushmania2002/ampliscan
 
 ---
 
@@ -125,6 +125,17 @@ modules: configuration and validation, anchor localisation, approximate barcode
 matching, the per-read demultiplexing pipeline, streaming input/output, a
 synthetic-read generator for testing, an Excel-panel importer, a parallel
 file-to-bins driver, a command-line interface, and a Tkinter GUI.
+
+**Figure 1** summarises the pipeline: paired FASTQ input and a panel
+definition are consumed by the engine (anchor localisation → barcode matching
+→ paired-end reconciliation), which is reachable from either the CLI or the
+GUI, and which emits per-sample FASTQ/FASTA bins together with a QC summary.
+
+<p align="center">
+  <img src="docs/workflow.png" alt="ampliscan workflow diagram" width="800"><br>
+  <sub><b>Figure 1.</b> ampliscan processing pipeline, from raw paired-end
+  reads and a panel definition to per-sample output bins and a QC summary.</sub>
+</p>
 
 ### 4.1 Panel definition and validation
 
@@ -322,7 +333,7 @@ If you use ampliscan in your research, please cite this archived release:
 
 > Ayushman Mallick (2026). *ampliscan: an anchor-based amplicon
 > demultiplexer with a desktop GUI for barcode-tagged sequencing reads*
-> (Version 0.1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21505581
+> (Version 1.0.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21505581
 
 BibTeX:
 
@@ -332,7 +343,7 @@ BibTeX:
   title   = {ampliscan: an anchor-based amplicon demultiplexer with a
              desktop GUI for barcode-tagged sequencing reads},
   year    = {2026},
-  version = {0.1.0},
+  version = {1.0.0},
   publisher = {Zenodo},
   doi     = {10.5281/zenodo.21505581},
   url     = {https://doi.org/10.5281/zenodo.21505581}
