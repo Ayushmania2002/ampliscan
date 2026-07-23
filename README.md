@@ -12,8 +12,7 @@
   <img alt="Python" src="https://img.shields.io/badge/python-%E2%89%A53.9-blue">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green">
   <img alt="Interfaces" src="https://img.shields.io/badge/interfaces-CLI%20%2B%20GUI-8a2be2">
-  <!-- After you publish on Zenodo, replace XXXXXXX and uncomment: -->
-  <!-- <a href="https://doi.org/10.5281/zenodo.XXXXXXX"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg"></a> -->
+  <a href="https://doi.org/10.5281/zenodo.21505581"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.21505581.svg"></a>
 </p>
 
 ---
@@ -126,7 +125,7 @@ If you use ampliscan in your research, please cite it (see [`CITATION.cff`](CITA
 
 > Ayushman Mallick (2026). *ampliscan: an anchor-based amplicon demultiplexer
 > with a desktop GUI for barcode-tagged sequencing reads* (Version 0.1.0)
-> [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+> [Software]. Zenodo. https://doi.org/10.5281/zenodo.21505581
 
 ## License
 

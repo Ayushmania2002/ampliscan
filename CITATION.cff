@@ -26,5 +26,5 @@ keywords:
   - FASTQ
   - bioinformatics
   - Python
-# repository-code: "https://github.com/Ayushmania2002/ampliscan"   # uncomment after repo is created
-# doi: "10.5281/zenodo.XXXXXXX"                                     # add once Zenodo mints it
+repository-code: "https://github.com/Ayushmania2002/ampliscan"
+doi: "10.5281/zenodo.21505581"

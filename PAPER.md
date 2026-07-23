@@ -16,7 +16,7 @@
 
 **Correspondence:** ayushmania2002@gmail.com · **ORCID:** [0000-0000-0000-0000]
 
-**Version:** 0.1.0 · **License:** MIT · **DOI:** [10.5281/zenodo.XXXXXXX] · **Repository:** [https://github.com/<user>/ampliscan]
+**Version:** 0.1.0 · **License:** MIT · **DOI:** 10.5281/zenodo.21505581 · **Repository:** https://github.com/Ayushmania2002/ampliscan
 
 ---
 
@@ -308,8 +308,8 @@ repository.
 ## 9. Availability and requirements
 
 - **Project name:** ampliscan
-- **Repository:** [https://github.com/<user>/ampliscan]
-- **Archived version (this release):** DOI [10.5281/zenodo.XXXXXXX]
+- **Repository:** https://github.com/Ayushmania2002/ampliscan
+- **Archived version (this release):** DOI 10.5281/zenodo.21505581
 - **Operating systems:** platform-independent (Windows, macOS, Linux)
 - **Programming language:** Python ≥ 3.9
 - **Dependencies:** PyYAML (core); optional: pandas + openpyxl (Excel),
@@ -322,7 +322,7 @@ If you use ampliscan in your research, please cite this archived release:
 
 > Ayushman Mallick (2026). *ampliscan: an anchor-based amplicon
 > demultiplexer with a desktop GUI for barcode-tagged sequencing reads*
-> (Version 0.1.0) [Software]. Zenodo. https://doi.org/[10.5281/zenodo.XXXXXXX]
+> (Version 0.1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.21505581
 
 BibTeX:
 
@@ -334,8 +334,8 @@ BibTeX:
   year    = {2026},
   version = {0.1.0},
   publisher = {Zenodo},
-  doi     = {10.5281/zenodo.XXXXXXX},
-  url     = {https://doi.org/10.5281/zenodo.XXXXXXX}
+  doi     = {10.5281/zenodo.21505581},
+  url     = {https://doi.org/10.5281/zenodo.21505581}
 }
 ```
 

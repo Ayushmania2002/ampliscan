@@ -14,6 +14,14 @@ dependencies = [
     "pyyaml>=6.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/Ayushmania2002/ampliscan"
+Repository = "https://github.com/Ayushmania2002/ampliscan"
+Documentation = "https://github.com/Ayushmania2002/ampliscan#readme"
+"Paper" = "https://github.com/Ayushmania2002/ampliscan/blob/main/PAPER.md"
+"Zenodo (cite this)" = "https://doi.org/10.5281/zenodo.21505581"
+Issues = "https://github.com/Ayushmania2002/ampliscan/issues"
+
 [project.optional-dependencies]
 excel = ["pandas>=1.5", "openpyxl>=3.1"]
 fast = ["isal>=1.6"]  # 2-5x faster gzip; used automatically when installed
