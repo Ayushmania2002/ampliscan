@@ -40,3 +40,32 @@ def test_gui_constructs_if_display_available():
     AmpliscanGUI(root)          # must not raise
     root.update()               # force a render pass
     root.destroy()
+
+
+def test_gui_has_two_heatmap_canvases_and_renders_results():
+    if not _require_tk():
+        pytest.skip("tkinter not available in this build")
+    try:
+        import tkinter as tk
+        from ampliscan.gui import AmpliscanGUI
+        root = tk.Tk()
+    except tk.TclError:
+        pytest.skip("no display available")
+    root.withdraw()
+    app = AmpliscanGUI(root)
+    root.update()
+
+    # two distinct canvases power the R1/R2 comparison heatmaps
+    assert app.canvas_r1 is not app.canvas_r2
+
+    from ampliscan.parallel import DemuxStats
+    from collections import Counter
+    stats = DemuxStats(total=10, assigned=8)
+    stats.bin_counts_r1 = Counter({"F01_R01": 5, "F02_R02": 3})
+    stats.bin_counts_r2 = Counter({"F01_R01": 4, "F02_R02": 4})
+    app._show_results(stats)   # must not raise
+    root.update()
+
+    assert app._last_bins_r1 == stats.bin_counts_r1
+    assert app._last_bins_r2 == stats.bin_counts_r2
+    root.destroy()

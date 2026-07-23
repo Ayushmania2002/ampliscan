@@ -88,6 +88,12 @@ class DemuxStats:
     assigned: int = 0
     bin_counts: Counter = field(default_factory=Counter)
     reason_counts: Counter = field(default_factory=Counter)
+    # Per-mate breakdown: what bin would R1 alone assign, and what bin would
+    # R2 alone assign, independent of the paired-end reconciliation. Empty
+    # for single-end input. Useful as a QC heatmap comparing whether R1 and
+    # R2 independently agree on per-sample counts.
+    bin_counts_r1: Counter = field(default_factory=Counter)
+    bin_counts_r2: Counter = field(default_factory=Counter)
     workers: int = 1
 
     @property
@@ -106,6 +112,8 @@ class DemuxStats:
             "assigned_fraction": self.assigned_fraction,
             "workers": self.workers,
             "bin_counts": dict(self.bin_counts),
+            "bin_counts_r1": dict(self.bin_counts_r1),
+            "bin_counts_r2": dict(self.bin_counts_r2),
             "reason_counts": dict(self.reason_counts),
         }
 
@@ -237,6 +245,14 @@ def demux_to_bins(
                 stats.bin_counts[res.bin_name] += 1
             else:
                 stats.reason_counts[res.reason or "unknown"] += 1
+            # Per-mate tallies are independent of the overall pair outcome --
+            # R1 (or R2) can assign on its own even when the pair disagrees
+            # or the other mate fails, and that's exactly what the QC
+            # heatmap should surface.
+            if res.r1_bin_name:
+                stats.bin_counts_r1[res.r1_bin_name] += 1
+            if res.r2_bin_name:
+                stats.bin_counts_r2[res.r2_bin_name] += 1
             writer.write(res)
 
     try:

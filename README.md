@@ -91,8 +91,10 @@ ampliscan gui          # or just: ampliscan
 ```
 
 Configure the panel (or load it from YAML/Excel), pick your R1/R2 files and an
-output folder, set options, and run — with a live progress bar, a reads-per-bin
-heatmap, and an "open output folder" button.
+output folder, set options, and run — with a live progress bar, **two
+side-by-side reads-per-bin heatmaps (R1's independent assignment vs R2's)**
+for a quick visual QC check that both mates agree, and an "open output
+folder" button.
 
 > On Windows, `ampliscan-gui` (and double-clicking it) opens with no console
 > window. On Debian/Ubuntu, tkinter may need `sudo apt install python3-tk`.

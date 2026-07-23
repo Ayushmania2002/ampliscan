@@ -372,16 +372,42 @@ class AmpliscanGUI:
                      font=("Segoe UI", 9)).pack(pady=(0, 4))
             statf.columnconfigure(i, weight=1, uniform="stat")
 
-        ttk.Label(right, text="READS PER F × R BIN", style="Section.TLabel").pack(anchor="w", pady=(18, 6))
-        self._last_bins = None
-        # small requested width so the canvas doesn't force the frame wider than
-        # the window; fill/expand lets it grow into the available space.
-        self.canvas = tk.Canvas(right, width=360, height=250, background="#ffffff",
-                                highlightthickness=1, highlightbackground=P["border"])
-        self.canvas.pack(fill="both", expand=True)
-        # redraw the heatmap whenever the canvas is resized (or first mapped)
-        self.canvas.bind("<Configure>",
-                         lambda e: self._last_bins and self._draw_heatmap(self._last_bins))
+        ttk.Label(right, text="READS PER F × R BIN — BY MATE", style="Section.TLabel").pack(anchor="w", pady=(18, 6))
+        ttk.Label(right, text="Independent per-read-pair assignment for R1 vs R2 — "
+                  "similar patterns confirm both mates agree on samples.",
+                  style="Muted.TLabel", wraplength=560).pack(anchor="w", pady=(0, 6))
+
+        heat_row = ttk.Frame(right)
+        heat_row.pack(fill="both", expand=True)
+        heat_row.columnconfigure(0, weight=1, uniform="heat")
+        heat_row.columnconfigure(1, weight=1, uniform="heat")
+        heat_row.rowconfigure(1, weight=1)
+
+        ttk.Label(heat_row, text="R1 assignment", style="Field.TLabel").grid(
+            row=0, column=0, sticky="w")
+        ttk.Label(heat_row, text="R2 assignment", style="Field.TLabel").grid(
+            row=0, column=1, sticky="w", padx=(10, 0))
+
+        # width=1: grid will not shrink a widget below its *requested* size,
+        # so a large initial width (e.g. 170) plus two columns can demand
+        # more than the window has and overflow past the edge instead of
+        # compressing. Requesting the minimum and relying entirely on
+        # sticky="nsew" + the column weights above makes each canvas take
+        # exactly its 50% share of whatever space is actually available.
+        self.canvas_r1 = tk.Canvas(heat_row, width=1, height=230, background="#ffffff",
+                                   highlightthickness=1, highlightbackground=P["border"])
+        self.canvas_r1.grid(row=1, column=0, sticky="nsew", pady=(2, 0))
+        self.canvas_r2 = tk.Canvas(heat_row, width=1, height=230, background="#ffffff",
+                                   highlightthickness=1, highlightbackground=P["border"])
+        self.canvas_r2.grid(row=1, column=1, sticky="nsew", padx=(10, 0), pady=(2, 0))
+
+        self._last_bins_r1 = None
+        self._last_bins_r2 = None
+        # redraw each heatmap whenever its canvas is resized (or first mapped)
+        self.canvas_r1.bind("<Configure>", lambda e: self._last_bins_r1 is not None
+                            and self._draw_heatmap_on(self.canvas_r1, self._last_bins_r1))
+        self.canvas_r2.bind("<Configure>", lambda e: self._last_bins_r2 is not None
+                            and self._draw_heatmap_on(self.canvas_r2, self._last_bins_r2))
 
         ttk.Label(right, text="UNASSIGNED REASONS", style="Section.TLabel").pack(anchor="w", pady=(14, 6))
         self.reasons = tk.Text(right, height=5)
@@ -574,7 +600,10 @@ class AmpliscanGUI:
         self.stat_assigned.set(f"{pct:.1f}%")
         self.stat_unassigned.set(f"{stats.unassigned:,}")
 
-        self._draw_heatmap(stats.bin_counts)
+        self._last_bins_r1 = stats.bin_counts_r1
+        self._last_bins_r2 = stats.bin_counts_r2
+        self._draw_heatmap_on(self.canvas_r1, stats.bin_counts_r1)
+        self._draw_heatmap_on(self.canvas_r2, stats.bin_counts_r2)
 
         self.reasons.configure(state="normal")
         self.reasons.delete("1.0", "end")
@@ -585,12 +614,16 @@ class AmpliscanGUI:
             self.reasons.insert("end", "  none — everything assigned\n")
         self.reasons.configure(state="disabled")
 
-    def _draw_heatmap(self, bin_counts):
-        # Remember the data so we can redraw responsively on canvas resize.
-        self._last_bins = bin_counts
-        c = self.canvas
+    def _draw_heatmap_on(self, canvas, bin_counts):
+        c = canvas
         c.delete("all")
         if not bin_counts:
+            c.update_idletasks()
+            W, H = c.winfo_width(), c.winfo_height()
+            if W > 10 and H > 10:
+                c.create_text(W / 2, H / 2, text="no reads\n(single-end run?)",
+                              fill=self.PALETTE["muted"], font=("Segoe UI", 9),
+                              justify="center")
             return
         f_names, r_names = set(), set()
         for k in bin_counts:

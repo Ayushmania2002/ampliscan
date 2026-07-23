@@ -26,10 +26,17 @@ class DemuxResult:
     reverse_bc: Optional[str]        # name, e.g. "R01"
     target_seq: Optional[str]        # extracted insert
     target_qual: Optional[str] = None
-    strand: Optional[str] = None     # "+" or "-" (read orientation that matched)
+    strand: Optional[str] = None     # "+" or "-" (orientation of the returned/winning result)
     reason: Optional[str] = None     # failure reason if unassigned
     fbc_distance: int = 0
     rbc_distance: int = 0
+    # Independent per-mate bin assignment for paired-end input (None for
+    # single-end). Unlike `strand`, which only reflects whichever mate's
+    # result was returned, these are populated from *each* mate's own
+    # demultiplexing regardless of pairing outcome -- e.g. for a QC heatmap
+    # comparing what R1 alone vs R2 alone would assign.
+    r1_bin_name: Optional[str] = None
+    r2_bin_name: Optional[str] = None
 
 
 def _try_orientation(
@@ -111,6 +118,7 @@ def demux_record(
 def _demux_with_matchers(record, panel, policy, fwd_matcher, rev_matcher, mate):
     r1 = _demux_single(record, panel, policy, fwd_matcher, rev_matcher)
     if mate is None:
+        r1.r1_bin_name = r1.bin_name
         return r1
 
     r2 = _demux_single(mate, panel, policy, fwd_matcher, rev_matcher)
@@ -118,6 +126,8 @@ def _demux_with_matchers(record, panel, policy, fwd_matcher, rev_matcher, mate):
     if r1.bin_name and r2.bin_name:
         if r1.bin_name == r2.bin_name:
             r1.read_id = record.id
+            r1.r1_bin_name = r1.bin_name
+            r1.r2_bin_name = r2.bin_name
             return r1
         # disagreement -- mark unassigned
         return DemuxResult(
@@ -130,10 +140,14 @@ def _demux_with_matchers(record, panel, policy, fwd_matcher, rev_matcher, mate):
             reason=REASON_PAIR_MISMATCH,
             fbc_distance=r1.fbc_distance,
             rbc_distance=r1.rbc_distance,
+            r1_bin_name=r1.bin_name,
+            r2_bin_name=r2.bin_name,
         )
     # one side worked, use it
     winner = r1 if r1.bin_name else r2
     winner.read_id = record.id
+    winner.r1_bin_name = r1.bin_name
+    winner.r2_bin_name = r2.bin_name
     return winner
 
 

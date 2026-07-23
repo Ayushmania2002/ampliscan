@@ -44,6 +44,27 @@ def test_demux_to_bins_single_process(paired_files, tmp_path):
             assert (out / f"{f}_{r}.fq.gz").exists()
 
 
+def test_demux_to_bins_per_mate_heatmap_stats(tmp_path):
+    """bin_counts_r1/bin_counts_r2 must be populated and roughly balanced --
+    this is what powers the GUI's two side-by-side QC heatmaps."""
+    r1, r2 = simulate_reads(PANEL, reads_per_bin=150, target_length=90,
+                            error_rate=0.005, paired_end=True, seed=7)
+    p1, p2 = tmp_path / "r1.fq.gz", tmp_path / "r2.fq.gz"
+    write_fastq(r1, p1)
+    write_fastq(r2, p2)
+
+    stats = demux_to_bins(p1, PANEL, tmp_path / "out", r2_path=p2,
+                          policy=MatchPolicy(barcode_mismatch=1), workers=1)
+
+    sum_r1 = sum(stats.bin_counts_r1.values())
+    sum_r2 = sum(stats.bin_counts_r2.values())
+    assert sum_r1 > 0 and sum_r2 > 0
+    assert abs(sum_r1 - sum_r2) / max(sum_r1, sum_r2) < 0.10, (sum_r1, sum_r2)
+
+    d = stats.as_dict()
+    assert "bin_counts_r1" in d and "bin_counts_r2" in d
+
+
 def test_demux_to_bins_split_by_strand(paired_files, tmp_path):
     """With split_by_strand, each bin becomes _fwd (+) and _rev (-) files, and
     each file holds only reads of that strand."""
