@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/ampliscan/assets/cover.png" alt="ampliscan — sort sequencing reads into per-sample bins by their barcodes" width="820">
+  <img src="assets/cover.png" alt="ampliscan — sort sequencing reads into per-sample bins by their barcodes" width="820">
 </p>
 
 <h1 align="center">ampliscan</h1>

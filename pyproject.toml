@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Anchor-based amplicon demultiplexer for tetra/octa-nucleotide barcodes"
 readme = "README.md"
 requires-python = ">=3.9"
-authors = [{ name = "Ayushman", email = "ayushmania2002@gmail.com" }]
+authors = [{ name = "Ayushman Mallick", email = "ayushmania2002@gmail.com" }]
 license = { text = "MIT" }
 dependencies = [
     "pyyaml>=6.0",
@@ -29,3 +29,10 @@ ampliscan-gui = "ampliscan.gui:launch"
 [tool.hatch.build.targets.wheel]
 packages = ["src/ampliscan"]
 artifacts = ["*.ico", "*.png"]  # bundle brand icons with the installed package
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/assets",                       # repo-only README banner, not needed to build/install
+    "/examples/sample_data",         # demo FASTQ files, not needed to build/install
+    "/.github",
+]
