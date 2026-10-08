@@ -109,7 +109,10 @@ ampliscan demux  --r1 R1.fq.gz --r2 R2.fq.gz --config panel.yaml --out bins/ --f
 ```
 
 Useful `demux` flags: `--format {fastq,fasta,both}`, `--split-by-strand`
-(separate `_fwd`/`_rev` files), `--workers N` (CPU cores; see the speed note).
+(separate `_fwd`/`_rev` files), `--workers N` (CPU cores; see the speed note),
+and `--report [PATH]` (a single self-contained HTML report with the F × R
+heatmap, R1-vs-R2 heatmaps, and a chart of why reads were left unassigned;
+defaults to `<out>/report.html`).
 
 ### Python API
 

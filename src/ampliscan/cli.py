@@ -86,6 +86,19 @@ def cmd_demux(args) -> int:
     if args.stats_json:
         Path(args.stats_json).write_text(json.dumps(stats.as_dict(), indent=2))
         print(f"Stats JSON written to: {Path(args.stats_json).resolve()}")
+
+    if args.report:
+        from ampliscan.report import write_report
+        report_path = Path(args.out) / "report.html" if args.report is True else Path(args.report)
+        params = {
+            "anchor mismatches": policy.anchor_mismatch,
+            "barcode mismatches": policy.barcode_mismatch,
+            "indels": "yes" if policy.allow_indels else "no",
+            "input": Path(args.r1).name + (f" + {Path(args.r2).name}" if args.r2 else ""),
+        }
+        title = Path(args.r1).name.replace("_R1", "").split(".")[0]
+        written = write_report(stats, panel, report_path, title=title, params=params)
+        print(f"HTML report written to: {written}")
     return 0
 
 
@@ -181,6 +194,9 @@ def build_parser() -> argparse.ArgumentParser:
                    help="write plain (uncompressed) output")
     d.add_argument("--split-by-strand", action="store_true",
                    help="separate + and - strands into F01_R01_fwd / _rev files")
+    d.add_argument("--report", nargs="?", const=True, default=None, metavar="PATH",
+                   help="write a self-contained HTML report (heatmaps + unassigned-reason "
+                        "chart); PATH defaults to <out>/report.html")
     d.add_argument("--stats-json", default=None,
                    help="also write run stats to this JSON file")
     _add_match_args(d)

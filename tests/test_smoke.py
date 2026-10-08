@@ -112,7 +112,12 @@ def test_r1_r2_bin_names_single_end():
 
 
 def test_excel_panel_parses_real_file():
-    p = panel_from_excel(r"C:/Users/ayush/Downloads/Data_Ayushman.xlsx", barcode_length=4)
+    import os
+    import pytest
+    xlsx = r"C:/Users/ayush/Downloads/Data_Ayushman.xlsx"
+    if not os.path.exists(xlsx):
+        pytest.skip("Data_Ayushman.xlsx not present on this machine")
+    p = panel_from_excel(xlsx, barcode_length=4)
     assert p.forward_5p_anchor == "GCTT"
     assert p.forward_3p_anchor == "ACAG"
     assert p.forward_barcodes["F01"] == "GCGT"
