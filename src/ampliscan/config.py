@@ -22,12 +22,18 @@ class MatchPolicy:
     allow_indels: if True, use Levenshtein distance; otherwise Hamming.
     min_anchor_quality: minimum mean Phred over the anchor region (0 = no filter).
     min_barcode_quality: minimum mean Phred over the barcode region (0 = no filter).
+    min_target_length: reads whose extracted insert is shorter than this are not
+        assigned to a sample (reason ``target_too_short``). The default of 1
+        guarantees no empty records are written; an empty FASTQ record crashes
+        downstream tools such as CRISPResso2. Raise it (e.g. to 20) to also drop
+        primer-dimer / adapter-only artifacts.
     """
     anchor_mismatch: int = 0
     barcode_mismatch: int = 1
     allow_indels: bool = False
     min_anchor_quality: int = 0
     min_barcode_quality: int = 0
+    min_target_length: int = 1
 
 
 @dataclass

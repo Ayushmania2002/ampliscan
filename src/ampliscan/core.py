@@ -15,6 +15,7 @@ REASON_BC_UNKNOWN = "barcode_unmatched"
 REASON_BC_AMBIGUOUS = "barcode_ambiguous"
 REASON_PAIR_MISMATCH = "paired_end_disagreement"
 REASON_LOW_QUALITY = "low_quality"
+REASON_TARGET_SHORT = "target_too_short"
 
 
 @dataclass
@@ -79,6 +80,12 @@ def _try_orientation(
         bin_name = None
     elif f_name is None or r_name is None:
         reason = REASON_BC_UNKNOWN
+        bin_name = None
+    elif len(target) < policy.min_target_length:
+        # Barcodes matched but there is (almost) no insert between them, e.g. a
+        # primer-dimer / adapter read where the F barcode runs straight into the
+        # 3' anchor. Never emit these into a sample bin.
+        reason = REASON_TARGET_SHORT
         bin_name = None
     else:
         reason = None

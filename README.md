@@ -112,7 +112,9 @@ Useful `demux` flags: `--format {fastq,fasta,both}`, `--split-by-strand`
 (separate `_fwd`/`_rev` files), `--workers N` (CPU cores; see the speed note),
 and `--report [PATH]` (a single self-contained HTML report with the F × R
 heatmap, R1-vs-R2 heatmaps, and a chart of why reads were left unassigned;
-defaults to `<out>/report.html`).
+defaults to `<out>/report.html`), and `--min-target-length N` (drop reads whose
+insert between the barcodes is shorter than N nt; the default of 1 guarantees no
+empty FASTQ records, which crash CRISPResso2 -- use 20+ to also drop primer-dimers).
 
 ### Python API
 

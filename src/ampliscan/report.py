@@ -21,6 +21,7 @@ _REASON_LABELS = {
     "barcode_unmatched": "Barcode unmatched",
     "barcode_ambiguous": "Barcode ambiguous",
     "paired_end_disagreement": "R1/R2 disagree",
+    "target_too_short": "Insert too short",
 }
 
 
@@ -183,6 +184,8 @@ def build_report_html(stats, panel, title: str = "", params: Optional[dict] = No
             "from every panel barcode.</li>"
             "<li><b>Barcode ambiguous</b>: the barcode is equally close to two panel barcodes, so no guess was made.</li>"
             "<li><b>R1/R2 disagree</b>: the two mates were assigned to different samples; the pair is withheld.</li>"
+            "<li><b>Insert too short</b>: barcodes matched but the sequence between them is shorter than the minimum "
+            "(primer-dimer or adapter-only reads); never written to a sample bin.</li>"
             "</ul></div>"
         )
     else:

@@ -34,6 +34,7 @@ def _make_policy(args):
         anchor_mismatch=args.anchor_mismatch,
         barcode_mismatch=args.barcode_mismatch,
         allow_indels=args.indels,
+        min_target_length=args.min_target_length,
     )
 
 
@@ -161,6 +162,10 @@ def _add_match_args(p):
                    help="substitutions allowed in the barcode (default 1)")
     p.add_argument("--indels", action="store_true",
                    help="use Levenshtein (allow indels) instead of Hamming")
+    p.add_argument("--min-target-length", type=int, default=1, metavar="N",
+                   help="drop reads whose insert between the barcodes is shorter than N nt "
+                        "(default 1: never write empty records, which crash CRISPResso2; "
+                        "try 20+ to also remove primer-dimer artifacts)")
 
 
 def build_parser() -> argparse.ArgumentParser:
