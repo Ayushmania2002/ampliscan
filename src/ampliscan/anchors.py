@@ -54,6 +54,7 @@ def locate_barcoded_region(
     anchor_3p: str,
     barcode_length: int,
     anchor_mismatch: int = 0,
+    adapter: str = "",
 ) -> Optional[Tuple[int, int, str, str, str]]:
     """Find the structure ``ANCHOR5 [F-bc] TARGET [R-bc] ANCHOR3`` in ``read``.
 
@@ -61,6 +62,12 @@ def locate_barcoded_region(
     ``fbc`` and ``rbc`` are the extracted barcode strings and ``target`` is
     everything between them. Returns None if either anchor is missing or the
     geometry is inconsistent.
+
+    ``adapter``: if given and found after the 5' barcode, the 3' anchor is only
+    searched for before it. Reads that run through the insert into the sequencing
+    adapter and sample index would otherwise match a stray copy of the anchor
+    inside the index (the search takes the rightmost match, which is still the
+    rule inside the bounded window, since the insert may contain the anchor).
     """
     pos5 = find_anchor(read, anchor_5p, max_mismatch=anchor_mismatch)
     if pos5 is None:
@@ -70,8 +77,14 @@ def locate_barcoded_region(
     if fbc_end > len(read):
         return None
 
+    end3 = None
+    if adapter:
+        a = read.upper().find(adapter.upper(), fbc_end)
+        if a >= 0:
+            end3 = a
+
     pos3 = find_anchor(read, anchor_3p, max_mismatch=anchor_mismatch,
-                       start=fbc_end, from_end=True)
+                       start=fbc_end, end=end3, from_end=True)
     if pos3 is None:
         return None
     rbc_end = pos3

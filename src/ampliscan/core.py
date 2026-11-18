@@ -56,7 +56,8 @@ def _try_orientation(
         a5, a3 = panel.reverse_5p_anchor, panel.reverse_3p_anchor
 
     hit = locate_barcoded_region(
-        seq, a5, a3, panel.barcode_length, anchor_mismatch=policy.anchor_mismatch
+        seq, a5, a3, panel.barcode_length, anchor_mismatch=policy.anchor_mismatch,
+        adapter=policy.adapter_trim,
     )
     if hit is None:
         return None
@@ -151,7 +152,15 @@ def _demux_with_matchers(record, panel, policy, fwd_matcher, rev_matcher, mate):
             r2_bin_name=r2.bin_name,
         )
     # one side worked, use it
-    winner = r1 if r1.bin_name else r2
+    if r1.bin_name:
+        winner = r1
+    elif r2.bin_name:
+        winner = r2
+    else:
+        # Neither mate assigned: report the more informative failure. A mate
+        # with no anchor at all (e.g. a failed all-N Read 2) must not mask the
+        # other mate's real reason; on a tie prefer R1.
+        winner = r2 if (r1.reason == REASON_NO_ANCHOR and r2.reason != REASON_NO_ANCHOR) else r1
     winner.read_id = record.id
     winner.r1_bin_name = r1.bin_name
     winner.r2_bin_name = r2.bin_name

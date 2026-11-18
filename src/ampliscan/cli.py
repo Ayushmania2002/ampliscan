@@ -35,6 +35,7 @@ def _make_policy(args):
         barcode_mismatch=args.barcode_mismatch,
         allow_indels=args.indels,
         min_target_length=args.min_target_length,
+        adapter_trim="" if args.no_adapter_trim else args.adapter,
     )
 
 
@@ -166,6 +167,12 @@ def _add_match_args(p):
                    help="drop reads whose insert between the barcodes is shorter than N nt "
                         "(default 1: never write empty records, which crash CRISPResso2; "
                         "try 20+ to also remove primer-dimer artifacts)")
+    p.add_argument("--adapter", default="AGATCGGAAGAGC", metavar="SEQ",
+                   help="3' adapter prefix that bounds the 3' anchor search, so a copy of the "
+                        "anchor inside the sample index is not mistaken for the real one "
+                        "(default: Illumina AGATCGGAAGAGC)")
+    p.add_argument("--no-adapter-trim", action="store_true",
+                   help="do not bound the 3' anchor search at the adapter (pre-1.2.2 behaviour)")
 
 
 def build_parser() -> argparse.ArgumentParser:
